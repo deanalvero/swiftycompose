@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     `maven-publish`
+    signing
 }
 
 android {
@@ -40,17 +41,46 @@ android {
     }
 }
 
-publishing {
-    publications {
-        register<MavenPublication>("release") {
-            groupId = "io.github.deanalvero"
-            artifactId = "swiftycompose"
-            version = "0.1"
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                groupId = "io.github.deanalvero"
+                artifactId = "swiftycompose"
+                version = "0.1.0"
 
-            afterEvaluate {
                 from(components["release"])
+
+                pom {
+                    name.set("SwiftyCompose")
+                    description.set("Build Composable components in Jetpack Compose using SwiftUI-like syntax!")
+                    url.set("https://github.com/deanalvero/swiftycompose")
+                    licenses {
+                        license {
+                            name.set("The Apache License, Version 2.0")
+                            url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        }
+                    }
+                    developers {
+                        developer {
+                            id.set("deanalvero")
+                            name.set("Dean Vernon Alvero")
+                            email.set((findProperty("email") as String?).orEmpty())
+                        }
+                    }
+                    scm {
+                        connection.set("scm:git:git://github.com/deanalvero/swiftycompose.git")
+                        developerConnection.set("scm:git:ssh://git@github.com:deanalvero/swiftycompose.git")
+                        url.set("https://github.com/deanalvero/swiftycompose")
+                    }
+                }
             }
         }
+    }
+
+    signing {
+        useGpgCmd()
+        sign(publishing.publications["release"])
     }
 }
 
