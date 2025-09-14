@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    `maven-publish`
 }
 
 android {
@@ -34,15 +35,26 @@ android {
     buildFeatures {
         compose = true
     }
+    publishing {
+        singleVariant("release")
+    }
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "io.github.deanalvero"
+            artifactId = "swiftycompose"
+            version = "0.1"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+        }
+    }
 }
 
 dependencies {
-
-    implementation(libs.androidx.core.ktx)
-    implementation(libs.androidx.appcompat)
-
-//    api(platform(libs.androidx.compose.bom))
-//    api("androidx.compose.foundation:foundation")
     api(libs.material3)
 
     testImplementation(libs.junit)
