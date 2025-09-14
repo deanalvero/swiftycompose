@@ -3,8 +3,14 @@
 Build Composable components in Jetpack Compose using SwiftUI-like syntax!
 
 ## Dependency
+Add the dependency to your build.gradle. Replace version with what is available [here](https://central.sonatype.com/artifact/io.github.deanalvero/swiftycompose/versions).
+```
+implementation("io.github.deanalvero:swiftycompose:<version>")
+```
 
-In progress. For now, copy the swiftycompose library code to your project.
+If you get a `IllegalArgumentException: source must not be null` compiler error, update the following plugins to at least version `2.2.10`:
+- org.jetbrains.kotlin.android
+- org.jetbrains.kotlin.plugin.compose
 
 ## Usage
 
